@@ -9,7 +9,7 @@ enum Authority {
 	Notlogin = 3
 };
 typedef struct {
-	string username,password;
+	string username, password;
 	Authority authority;
 }user;
 class users {
@@ -29,14 +29,14 @@ public:
 		}
 		return 0;
 	}
-	bool checkname(string username){
+	bool checkname(string username) {
 		if (findaccount(username)) {
-			cout<<"此帳號名稱已存在 請再輸入一次:";
+			cout << "Username had been used, enter again:";
 			return 1;
 		}
-		int blank = username.find_first_of(" ",0);
+		int blank = username.find_first_of(" ", 0);
 		if (blank != string::npos) {
-			cout<< "帳號名稱不可含空白鍵 請再輸入一次:";
+			cout << "Username cannot contain spaces, enter again:";
 			return 1;
 		}
 		return 0;
@@ -44,7 +44,7 @@ public:
 	bool checkpassword(string password) {
 		int blank = password.find_first_of(" ", 0);
 		if (blank != string::npos) {
-			cout << "密碼不可含空白鍵 請再輸入一次:\n";
+			cout << "Password cannot contain spaces, enter again:\n";
 			return 1;
 		}
 		return 0;
@@ -52,31 +52,31 @@ public:
 
 	void Register() {
 		string username, password;
-		cout << "請輸入註冊帳號名稱:";
-		getline(cin,username);
+		cout << "Enter the username:";
+		getline(cin, username);
 		while (checkname(username)) {
 			getline(cin, username);
 		}
-		cout << "請輸入密碼:";
+		cout << "Enter the password:";
 		getline(cin, password);
 		while (checkpassword(password)) {
 			getline(cin, password);
 		}
-		user regi_user={username,password,Menber};
+		user regi_user = { username,password,Menber };
 		accounts.push_back(regi_user);
-		cout << "註冊成功\n";
-		cout <<"帳號:"<<regi_user.username << "\n密碼:" << regi_user.password<<endl;
+		cout << "Register success\n";
+		cout << "username:" << regi_user.username << "\npassword:" << regi_user.password << endl;
 	}
 	void Login() {
 		string username, password;
 		string loginmethod;
-		cout << "登入帳號請輸入1 以訪客身分請輸入2:";
-		getline(cin,loginmethod);
+		cout << "Enter 1 for login, enter 2 for login as guests:";
+		getline(cin, loginmethod);
 		if (loginmethod == "1") {
-			cout << "請輸入帳號名稱:";
+			cout << "Enter username:";
 			getline(cin, username);
 			while (!findaccount(username)) {
-				cout << "查無此帳號 請再輸入一遍:";
+				cout << "Username does not exist, enter again";
 				getline(cin, username);
 			}
 			user login_user;
@@ -84,33 +84,33 @@ public:
 				if (accounts[i].username == username)
 					login_user = accounts[i];
 			}
-			cout << "請輸入密碼:";
+			cout << "Enter the password:";
 			getline(cin, password);
-			while (password!=login_user.password) {
-				cout << "密碼錯誤 請再輸入一遍";
+			while (password != login_user.password) {
+				cout << "Password is wrong, enter again:";
 				getline(cin, password);
 			}
 			current_user = login_user;
-			cout << "登入成功\n";
+			cout << "login success\n";
 		}
 		else if (loginmethod == "2") {
 			current_user.authority = Guest;
-			cout << "以訪客登入成功\n";
+			cout << "login as guest success\n";
 		}
 	}
 	void printloginaccount() {
 		switch (current_user.authority) {
 		case 0:
-			cout << "名稱:" << current_user.username << "\n密碼:" << current_user.password << "\n權限:管理員" << endl;
+			cout << "Username:" << current_user.username << "\nPassword:" << current_user.password << "\nAuthority:admin" << endl;
 		break;		case 1:
-			cout << "名稱:" << current_user.username << "\n密碼:" << current_user.password << "\n權限:一般使用者"<< endl;
+			cout << "Username:" << current_user.username << "\nPassword:" << current_user.password << "\nAuthority:user" << endl;
 			break;
 		case 2:
-			cout << "'訪客模式\n";
+			cout << "guest\n";
 			break;
 		case 3:
-			cout << "尚未登入\n";
-			break;	
+			cout << "not yet logged in\n";
+			break;
 		}
 
 	}

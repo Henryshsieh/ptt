@@ -5,10 +5,10 @@
 #include "user.h"
 int main()
 {
-    users users;
-    users.Register();
-    users.Login();
-    users.printloginaccount();
+	users users;
+	users.Register();
+	users.Login();
+	users.printloginaccount();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
