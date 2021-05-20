@@ -2,10 +2,13 @@
 //
 
 #include <iostream>
-
+#include "user.h"
 int main()
 {
-    std::cout << "Hello World!\n";
+    users users;
+    users.Register();
+    users.Login();
+    users.printloginaccount();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
