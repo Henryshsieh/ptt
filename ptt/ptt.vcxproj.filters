@@ -26,5 +26,8 @@
     <ClInclude Include="board.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BoardManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

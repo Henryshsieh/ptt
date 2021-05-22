@@ -8,14 +8,11 @@ enum Authority {
 	Guest = 2,
 	Notlogin = 3
 };
-typedef struct {
-	string username, password;
-	Authority authority;
-}user;
-class users {
+
+class User {
 public:
-	users() {
-		user adminadministrator = {
+	User() {
+		adminadministrator = {
 			"ntust","12345",Admin
 		};
 		accounts.push_back(adminadministrator);
@@ -115,6 +112,7 @@ public:
 
 	}
 private:
-	user current_user;
-	vector<user> accounts;
+	string username;
+	string password;
+	Authority authority;
 };
