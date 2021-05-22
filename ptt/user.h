@@ -47,7 +47,7 @@ public:
 		return 0;
 	}
 
-	void Register() {
+	friend void Register() {
 		string username, password;
 		cout << "Enter the username:";
 		getline(cin, username);
@@ -64,7 +64,7 @@ public:
 		cout << "Register success\n";
 		cout << "username:" << regi_user.username << "\npassword:" << regi_user.password << endl;
 	}
-	void Login() {
+	friend void Login() {
 		string username, password;
 		string loginmethod;
 		cout << "Enter 1 for login, enter 2 for login as guests:";
