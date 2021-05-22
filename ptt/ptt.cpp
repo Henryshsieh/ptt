@@ -21,5 +21,6 @@ int main()
 	} */
 // Testing Boards
 	Board HatePolitics;
+	HatePolitics.createPosts();
 	HatePolitics.editBoard();
 }
