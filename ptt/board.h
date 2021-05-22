@@ -69,7 +69,7 @@ void Board::editBoard() {
 	char cmd;
 	while (true) {
 		cout << "Select a mode:\n 'c'reate a new post\n"
-			" 'e'dit an existing post\n 'd'elete a post\n 'q'uit\n 'p'rint\n";
+			" 'e'dit an existing post\n 'd'elete a post\n 'q'uit\n 'p'rint (for testing)\n";
 		cin >> cmd;
 		cin.ignore();
 		if (cmd == 'c') {
@@ -104,6 +104,7 @@ void Board::editBoard() {
 			// ======================================
 			return;
 		}
+		// for testing only
 		else if (cmd == 'p') {
 			for (int i = 0; i < posts.size(); i++) {
 				cout << "Title: ";
