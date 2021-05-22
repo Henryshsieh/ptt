@@ -55,7 +55,9 @@ class Board
 public:
 	Board();
 	void editBoard();
-	void selectPost();
+	int selectPost();
+	// create dummy posts for testing
+	void createPosts();
 private:
 	vector<Post> posts;
 };
@@ -67,7 +69,7 @@ void Board::editBoard() {
 	char cmd;
 	while (true) {
 		cout << "Select a mode:\n 'c'reate a new post\n"
-			" 'e'dit an existing post\n 'd'elete a post\n 'q'uit\n";
+			" 'e'dit an existing post\n 'd'elete a post\n 'q'uit\n 'p'rint\n";
 		cin >> cmd;
 		cin.ignore();
 		if (cmd == 'c') {
@@ -78,45 +80,79 @@ void Board::editBoard() {
 			posts.push_back(newPost);
 		}
 		else if (cmd == 'e') {
-			cout << "Under construction!\n";
-
+			int i = selectPost();
+			cin.ignore();
+			posts[i].setTitle();
+			posts[i].setContents();
+			posts[i].setComment();
 		}
 		else if (cmd == 'd') {
-			cout << "Under construction!\n";
-
+			int i = selectPost();
+			posts.erase(posts.begin() + i);
 		}
 		else if (cmd == 'q') {
 			// modify the following code to write the record into a file
 			for (int i = 0; i < posts.size(); i++) {
-				// might have to print the keyword "title: " for later identification
+				cout << "Title: ";
 				cout << posts[i].title << endl;
 				cout << posts[i].contents;
 				for (int j = 0; j < posts[i].comments.size(); j++) {
-					cout << "comments " << j << ": ";
+					cout << "comment " << j << ": ";
 					cout << posts[i].comments[j].message << endl;
 				}
 			}
 			// ======================================
 			return;
 		}
+		else if (cmd == 'p') {
+			for (int i = 0; i < posts.size(); i++) {
+				cout << "Title: ";
+				cout << posts[i].title << endl;
+				cout << posts[i].contents;
+				for (int j = 0; j < posts[i].comments.size(); j++) {
+					cout << "comment " << j << ": ";
+					cout << posts[i].comments[j].message << endl;
+				}
+			}
+		}
 	}
 }
 
-void Board::selectPost() {
+int Board::selectPost() {
 	int index = 0;
-	char selector;
+	char selector, cmd;
+	cout << "Title: " << posts[index].title << endl;
+	cout << " enter 'c' to select this post: ";
+	cin >> cmd;
+	if (cmd == 'c')
+		return index;
 	while (true) {
+		cout << " select a post: 'p'revious and 'n'ext\n";
 		cin >> selector;
 		if (selector == 'p' && index - 1 >= 0) {
 			index--;
-			cout << posts[index].title << endl;
+			cout << "Title: " << posts[index].title << endl;
+			cout << " enter 'c' to select this post: ";
+			cin >> cmd;
+			if (cmd == 'c')
+				return index;
 		}
 		else if (selector == 'n' && index + 1 < posts.size()) {
 			index++;
-			cout << posts[index].title << endl;
+			cout << "Title: " << posts[index].title << endl;
+			cout << " enter 'c' to select this post: ";
+			cin >> cmd;
+			if (cmd == 'c')
+				return index;
 		}
-		else {
+		cout << "Title: " << posts[index].title << endl;
+	}
+}
 
-		}
+void Board::createPosts() {
+	Post temp;
+	for (int i = 0; i < 5; i++) {
+		temp.title = "post " + to_string(i);
+		posts.push_back(temp);
 	}
 }
