@@ -2,13 +2,29 @@
 //
 
 #include <iostream>
-#include "user.h"
+//#include "user.h"
+#include "board.h"
 int main()
 {
-	users users;
+// Testing users
+/*	users users;
 	users.Register();
 	users.Login();
-	users.printloginaccount();
+	users.printloginaccount();*/
+// Testing Posts
+/*	Post newPost;
+	newPost.setTitle();
+	newPost.setContents();
+	cout << "## title: " << newPost.title << endl << "## contents:\n" << newPost.contents;
+	cout << "Leave a comment: ";
+	newPost.setComment();
+	cout << "## comments:\n";
+	for (int i = 0; i < newPost.comments.size(); i++) {
+		cout << newPost.comments[i].message << endl;
+	} */
+// Testing Boards
+	Board HatePolitics;
+	HatePolitics.editBoard();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
