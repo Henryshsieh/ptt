@@ -1,6 +1,8 @@
 #pragma once
 #include "user.h"
 #include <vector>
+#include <string>
+using namespace std;
 enum vote
 {
 	UPVOTE,
@@ -53,6 +55,7 @@ class Board
 public:
 	Board();
 	void editBoard();
+	void selectPost();
 private:
 	vector<Post> posts;
 };
@@ -63,11 +66,11 @@ Board::Board() {
 void Board::editBoard() {
 	char cmd;
 	while (true) {
-		cout << "Select a mode:\n 'n'ew post\n"
+		cout << "Select a mode:\n 'c'reate a new post\n"
 			" 'e'dit an existing post\n 'd'elete a post\n 'q'uit\n";
 		cin >> cmd;
 		cin.ignore();
-		if (cmd == 'n') {
+		if (cmd == 'c') {
 			Post newPost;
 			newPost.setTitle();
 			newPost.setContents();
@@ -76,11 +79,44 @@ void Board::editBoard() {
 		}
 		else if (cmd == 'e') {
 			cout << "Under construction!\n";
+
 		}
 		else if (cmd == 'd') {
 			cout << "Under construction!\n";
+
 		}
-		else if (cmd == 'q')
+		else if (cmd == 'q') {
+			// modify the following code to write the record into a file
+			for (int i = 0; i < posts.size(); i++) {
+				// might have to print the keyword "title: " for later identification
+				cout << posts[i].title << endl;
+				cout << posts[i].contents;
+				for (int j = 0; j < posts[i].comments.size(); j++) {
+					cout << "comments " << j << ": ";
+					cout << posts[i].comments[j].message << endl;
+				}
+			}
+			// ======================================
 			return;
+		}
+	}
+}
+
+void Board::selectPost() {
+	int index = 0;
+	char selector;
+	while (true) {
+		cin >> selector;
+		if (selector == 'p' && index - 1 >= 0) {
+			index--;
+			cout << posts[index].title << endl;
+		}
+		else if (selector == 'n' && index + 1 < posts.size()) {
+			index++;
+			cout << posts[index].title << endl;
+		}
+		else {
+
+		}
 	}
 }
