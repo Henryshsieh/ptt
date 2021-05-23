@@ -138,7 +138,7 @@ int Board::selectPost() {
 	if (cmd == 'c')
 		return index;
 	while (true) {
-		cout << " select a post: 'p'revious and 'n'ext\n";
+		cout << " select a post: 'p'revious or 'n'ext: ";
 		cin >> selector;
 		if (selector == 'p' && index - 1 >= 0) {
 			index--;
