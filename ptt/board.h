@@ -2,6 +2,7 @@
 #include "user.h"
 #include <vector>
 #include <string>
+#include <fstream>
 using namespace std;
 enum vote
 {
@@ -98,17 +99,19 @@ void Board::editBoard() {
 			}
 		}
 		else if (cmd == 'q') {
-		// modify the following code to write the record into a file
+		// save the entire board to a txt file
+			//ofstream file;
+			//file.open("boardRecord.txt");
 			//for (int i = 0; i < posts.size(); i++) {
-			//	cout << "Title: ";
-			//	cout << posts[i].title << endl;
-			//	cout << posts[i].contents;
+			//	file << "Title: ";
+			//	file << posts[i].title << endl;
+			//	file << posts[i].contents;
 			//	for (int j = 0; j < posts[i].comments.size(); j++) {
-			//		cout << "comment " << j << ": ";
-			//		cout << posts[i].comments[j].message << endl;
+			//		file << "comment " << j << ": ";
+			//		file << posts[i].comments[j].message << endl;
 			//	}
 			//}
-		// ======================================
+			//file.close();
 			return;
 		}
 		// for testing only
