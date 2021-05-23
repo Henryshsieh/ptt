@@ -1,6 +1,6 @@
 # an offline bulletin board system
 ### TODO List
 - [ ] article rating mechanism
-- [ ] _edit existing posts_
+- [X] *rewrite* (edit) existing posts
 - [X] delete posts
-- [ ] save all existing posts to a file
+- [X] save all existing posts to a file
