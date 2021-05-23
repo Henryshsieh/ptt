@@ -56,8 +56,7 @@ public:
 	Board();
 	void editBoard();
 	int selectPost();
-	// create dummy posts for testing
-	void createPosts();
+	void createPosts(); // create dummy posts for testing
 private:
 	vector<Post> posts;
 };
@@ -69,7 +68,7 @@ void Board::editBoard() {
 	char cmd;
 	while (true) {
 		cout << "Select a mode:\n 'c'reate a new post\n"
-			" 'e'dit an existing post\n 'd'elete a post\n 'q'uit\n 'p'rint (for testing)\n";
+			" 'v'iew existing posts\n 'q'uit\n 'p'rint (for testing)\n";
 		cin >> cmd;
 		cin.ignore();
 		if (cmd == 'c') {
@@ -79,29 +78,37 @@ void Board::editBoard() {
 			newPost.setComment();
 			posts.push_back(newPost);
 		}
-		else if (cmd == 'e') {
+		else if (cmd == 'v') {
 			int i = selectPost();
-			cin.ignore();
-			posts[i].setTitle();
-			posts[i].setContents();
-			posts[i].setComment();
-		}
-		else if (cmd == 'd') {
-			int i = selectPost();
-			posts.erase(posts.begin() + i);
+			char mode;
+			cout << " 'e'dit, 'd'elete or 'c'omment: ";
+			cin >> mode;
+			if (mode == 'e') {
+				cin.ignore();
+				posts[i].setTitle();
+				posts[i].setContents();
+				posts[i].setComment();
+			}
+			else if (mode == 'd') {
+				posts.erase(posts.begin() + i);
+			}
+			else if (mode == 'c') {
+				cin.ignore();
+				posts[i].setComment();
+			}
 		}
 		else if (cmd == 'q') {
-			// modify the following code to write the record into a file
-			for (int i = 0; i < posts.size(); i++) {
-				cout << "Title: ";
-				cout << posts[i].title << endl;
-				cout << posts[i].contents;
-				for (int j = 0; j < posts[i].comments.size(); j++) {
-					cout << "comment " << j << ": ";
-					cout << posts[i].comments[j].message << endl;
-				}
-			}
-			// ======================================
+		// modify the following code to write the record into a file
+			//for (int i = 0; i < posts.size(); i++) {
+			//	cout << "Title: ";
+			//	cout << posts[i].title << endl;
+			//	cout << posts[i].contents;
+			//	for (int j = 0; j < posts[i].comments.size(); j++) {
+			//		cout << "comment " << j << ": ";
+			//		cout << posts[i].comments[j].message << endl;
+			//	}
+			//}
+		// ======================================
 			return;
 		}
 		// for testing only
