@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include<string>
+#include <fstream>
 using namespace std;
 enum Authority {
 	ADMIN = 0,
@@ -19,7 +20,14 @@ public:
 
 	}
 	User(string name, string _password, int auth):username(name), password(_password), authority(auth){};
-
+	User& operator = (User r)
+	{
+		username = r.username;
+		password = r.password;
+		authority = r.authority;
+		return *this;
+	}
+	
 	bool findaccount(string username, vector<User*>& users) {
 		for (auto x : users)
 		{
@@ -64,6 +72,17 @@ public:
 		cout << "Register success\n";
 		cout << "username:" << username << "\npassword:" << password << endl;
 		users.push_back(new User(username, password, MEMBER));
+		ofstream outfile;
+		outfile.open("accounts.txt", std::ios_base::app); // append instead of overwrite
+		if (outfile.is_open())
+		{
+			outfile << username << " " << password << " " << (int)MEMBER << endl;
+			outfile.close();
+		}
+		else
+		{
+			cout << "aaaaaaaaaaaa\n";
+		}
 		return users.back();
 	}
 	User* Login(vector<User*>& users) {

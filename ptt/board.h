@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include<direct.h>
+
 using namespace std;
 enum vote
 {
@@ -21,13 +23,13 @@ struct Comment
 		message = "";
 	}
 	Comment(bool _vote, string _message):vote(_vote), message(_message){}
-	//User user;
+	User user;
 };
 
 struct Post
 {
 public:
-	Post()
+	Post():user(User())
 	{
 		title = "";
 		contents = "";
@@ -38,26 +40,30 @@ public:
 		contents = _contents;
 		comments.assign(_comments.begin(), _comments.end());
 	}
-	void setTitle();//user as paramater
-	void setContents();//user as paramater
-	void setComment();//user as paramater
+	void setTitle();
+	void setContents();
+	void setComment();
+	
 	string title;
 	string contents;
 	vector<Comment> comments;
-	//User user;
+	User user;
 	//bool editComment(User* currentUser);
 
 };
 
 void Post::setTitle() {
 	cout << "Title: ";
+	cin.ignore();
 	getline(cin, title);
 }
 
 void Post::setContents() {
-	string buffer;
+	string buffer = "";
 	cout << "Editing:\n *type \"SAVE\" when you finish editing.\n";
-	while (getline(cin, buffer) && buffer != "SAVE") {
+	cin.ignore();
+	while (getline(cin, buffer)) {
+		cout << buffer <<endl;
 		if (buffer == "SAVE")
 			cout << "contents saved.\n";
 		else
@@ -68,6 +74,7 @@ void Post::setContents() {
 void Post::setComment() {
 	Comment newComment;
 	cout << "leave a comment: ";
+	cin.ignore();
 	getline(cin, newComment.message);
 	// TODO: voting mechanism
 	comments.push_back(newComment);
@@ -87,13 +94,58 @@ public:
 	}
 	void editBoard();//user as paramater
 	int selectPost();
-	void createPosts(); // create dummy posts for testing//user as paramater
+	void submitPost(User* user)
+	{
+		posts.push_back(Post());
+		posts.back().setTitle();
+		posts.back().setContents();
+		posts.back().user = *user;
+		save();
+	}
+	void save()
+	{
+		ofstream file;
+		string path = "boards\\" + boardName + "\\" +posts.back().title;
+		_mkdir(path.c_str());
+		file.open((path + "\\comments.txt").c_str());
+		if (!file.is_open())
+		{
+			cout << "fuck\n";
+		}
+		else
+		{
+			for (auto x : posts.back().comments)
+			{
+				file << (int)x.vote;
+				file << x.message;
+				file << x.user.username;
+			}
+		}
+		file.close();
+		file.open((path + "\\contents.txt").c_str());
+		if (!file.is_open())
+		{
+			cout << "fuck\n";
+		}
+		else
+		{
+				file << posts.back().contents;
+		}
+		ofstream ffile((path + "\\" + posts.back().user.username));//touch user
+		if (!ffile.is_open())
+		{
+			cout << "fuck\n";
+		}
+		ffile.close();
+
+	}
+	void createPosts(); // create dummy posts for testing
 	vector<Post> posts;
 	//vector <user> moderator;
 	string boardName;
 	//bool addBoard(User* currentUser);
 	//bool removePost(User* currentUser);
-	//bool setMod(vector<User*> user, User* currentUser);
+	//bool setMod(User* currentUser);
 	//friend bool removeBoard(vector<Board> boards, Board* currentBoard, User* currentUser);
 
 };

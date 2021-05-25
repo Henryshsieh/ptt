@@ -18,7 +18,7 @@
     <ClCompile Include="ptt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="boards\HatePoltics\HatePolitics">
+    <ClCompile Include="boards\HatePoltics\破麻\qaqwazzzzzwsd">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,5 +40,8 @@
     <Text Include="accounts.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="boards\HatePoltics\陳水扁\dick7552sfd" />
   </ItemGroup>
 </Project>
