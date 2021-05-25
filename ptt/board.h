@@ -1,4 +1,5 @@
 #pragma once
+
 #include "user.h"
 #include <vector>
 #include <string>
@@ -14,17 +15,38 @@ struct Comment
 {
 	bool vote;
 	string message;
+	Comment() 
+	{
+		vote = 0;
+		message = "";
+	}
+	Comment(bool _vote, string _message):vote(_vote), message(_message){}
+	//User user;
 };
 
 struct Post
 {
 public:
-	void setTitle();
-	void setContents();
-	void setComment();
+	Post()
+	{
+		title = "";
+		contents = "";
+	}
+	Post(string _title, string _contents, vector<Comment> _comments)
+	{
+		title = _title;
+		contents = _contents;
+		comments.assign(_comments.begin(), _comments.end());
+	}
+	void setTitle();//user as paramater
+	void setContents();//user as paramater
+	void setComment();//user as paramater
 	string title;
 	string contents;
 	vector<Comment> comments;
+	//User user;
+	//bool editComment(User* currentUser);
+
 };
 
 void Post::setTitle() {
@@ -54,16 +76,27 @@ void Post::setComment() {
 class Board
 {
 public:
-	Board();
-	void editBoard();
+	Board() 
+	{
+		boardName = "";
+	}
+	Board(string _boardName, vector<Post> _posts)
+	{
+		boardName = _boardName;
+		posts.assign(_posts.begin(), _posts.end());
+	}
+	void editBoard();//user as paramater
 	int selectPost();
-	void createPosts(); // create dummy posts for testing
-private:
+	void createPosts(); // create dummy posts for testing//user as paramater
 	vector<Post> posts;
-};
+	//vector <user> moderator;
+	string boardName;
+	//bool addBoard(User* currentUser);
+	//bool removePost(User* currentUser);
+	//bool setMod(vector<User*> user, User* currentUser);
+	//friend bool removeBoard(vector<Board> boards, Board* currentBoard, User* currentUser);
 
-Board::Board() {
-}
+};
 
 void Board::editBoard() {
 	char cmd;
@@ -167,3 +200,4 @@ void Board::createPosts() {
 		posts.push_back(temp);
 	}
 }
+

@@ -1,11 +1,17 @@
 #pragma once
-#include "user.h"
 #include <vector>
+#include <fstream>
 #include "board.h"
+#include "user.h"
+#include "Viewer.h"
+#include <filesystem>
+
 using namespace std;
+using namespace std::filesystem;
 
 class BoardManager
 {
+public:
 	enum state
 	{
 		MENU,
@@ -14,42 +20,106 @@ class BoardManager
 		POST,
 		EXIT
 	};
+	BoardManager();
 	void run();
-	vector<Board> boards;
-	vector<User> users;
-	int currentUser;
-	state currentState;
-};
+	void load();
+	void save();
 
+	Viewer viewer;
+	vector<Board> boards;
+	vector<User*> users;
+	state currentState;
+	User* currentUser;
+	Post* currentPost;
+	Board* currentBoard;
+};
+BoardManager::BoardManager()
+{
+	currentBoard = NULL;
+	currentPost = NULL;
+	currentUser = NULL;
+	currentState = MENU;
+	load();
+
+}
+void BoardManager::load()
+{
+	fstream file;
+	string username;
+	string password;
+	int auth;
+	file.open("accounts.txt", ios::in);
+	while (file >> username >> password >> auth)
+	{
+		users.push_back(new User(username, password, auth));
+	}
+	file.close();
+	string path = "boards";
+	cout << "幹";
+	
+		
+}
 void BoardManager::run()
 {
 	while (true)
 	{
-		if (currentState == MENU)
+		currentUser = new User();
+		char action;
+		while (currentState == MENU)
 		{
-			User user;
+			viewer.showMenu();
+			cin >> action;
+			if (action == 'r')
+			{
+				currentUser = currentUser->Register(users);
+				currentState = SELECT_BOARD;
+			}
+			else if (action == 'l')
+			{
+				currentUser = currentUser->Login(users);
+				currentState = SELECT_BOARD;
+
+			}
+			else if (action == 'e')
+			{
+				currentState = EXIT;
+				break;
+			}
+			else
+			{
+				cout << "enter again\n";
+			}
+		}	
+		while(currentState == SELECT_BOARD)
+		{
+			viewer.showBoards(boards);
+			/*
+			if (selectBoard(boards, currentBoard))
+				currentState == BOARD;
+			else
+			{
+				cout << "choose again\n";
+			}*/
+		}
+		while(currentState == BOARD)
+		{
+			/*
+			viewer.showPosts(currentBoard);
+			if (selectPost(boards, currentPost))
+				currentState == POST;
+			else
+			{
+				cout << "choose again\n";
+			}*/
+		}
+		while(currentState == POST)
+		{
+			viewer.showContent(currentPost);
 
 		}
-		else if (currentState == SELECT_BOARD)
-		{
-
-		}
-		else if (currentState == BOARD)
-		{
-
-		}
-		else if (currentState == POST)
-		{
-
-		}
-		else if (currentState == EXIT)
+		while(currentState == EXIT)
 		{
 			exit(0);
 		}
-		else
-		{
-			cout << "Enter again\n";
-		}
-
 	}
 }

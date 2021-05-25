@@ -1,6 +1,7 @@
 #include <iostream>
-//#include "user.h"
+#include "user.h"
 #include "board.h"
+#include "BoardManager.h"
 int main()
 {
 // Testing users
@@ -20,6 +21,8 @@ int main()
 		cout << newPost.comments[i].message << endl;
 	} */
 // Testing Boards
+	BoardManager Manager;
+	Manager.run();
 	Board HatePolitics;
 	HatePolitics.createPosts();
 	HatePolitics.editBoard();

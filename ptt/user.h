@@ -1,37 +1,39 @@
+#pragma once	
 #include <iostream>
 #include <vector>
 #include<string>
 using namespace std;
 enum Authority {
-	Admin = 0,
-	Menber = 1,
-	Guest = 2,
+	ADMIN = 0,
+	MEMBER = 1,
+	GUEST = 2,
 	Notlogin = 3
 };
-
 class User {
 public:
-	User() {
-		adminadministrator = {
-			"ntust","12345",Admin
-		};
-		accounts.push_back(adminadministrator);
-		current_user.authority = Notlogin;
+	User()
+	{
+		username = "GUEST";
+		password = "GUEST";
+		authority = GUEST;
+
 	}
-	bool findaccount(string username) {
-		for (int i = 0; i < accounts.size(); i++) {
-			if (accounts[i].username == username) {
+	User(string name, string _password, int auth):username(name), password(_password), authority(auth){};
+
+	bool findaccount(string username, vector<User*>& users) {
+		for (auto x : users)
+		{
+			if (x->username == username)
 				return 1;
-			}
 		}
 		return 0;
 	}
-	bool checkname(string username) {
-		if (findaccount(username)) {
+	bool checkname(string username, vector<User*>& users){
+		if (findaccount(username, users)) {
 			cout << "Username had been used, enter again:";
 			return 1;
 		}
-		int blank = username.find_first_of(" ", 0);
+		int blank = username.find_first_of(" ",0);
 		if (blank != string::npos) {
 			cout << "Username cannot contain spaces, enter again:";
 			return 1;
@@ -41,17 +43,17 @@ public:
 	bool checkpassword(string password) {
 		int blank = password.find_first_of(" ", 0);
 		if (blank != string::npos) {
-			cout << "Password cannot contain spaces, enter again:\n";
+			cout << "±K½X¤£¥i§tªÅ¥ÕÁä ½Ð¦A¿é¤J¤@¦¸:\n";
 			return 1;
 		}
 		return 0;
 	}
 
-	friend void Register() {
-		string username, password;
+	User* Register(vector<User*>& users) {
 		cout << "Enter the username:";
-		getline(cin, username);
-		while (checkname(username)) {
+		cin.ignore();
+		getline(cin,username);
+		while (checkname(username, users)) {
 			getline(cin, username);
 		}
 		cout << "Enter the password:";
@@ -59,60 +61,65 @@ public:
 		while (checkpassword(password)) {
 			getline(cin, password);
 		}
-		user regi_user = { username,password,Menber };
-		accounts.push_back(regi_user);
 		cout << "Register success\n";
-		cout << "username:" << regi_user.username << "\npassword:" << regi_user.password << endl;
+		cout << "username:" << username << "\npassword:" << password << endl;
+		users.push_back(new User(username, password, MEMBER));
+		return users.back();
 	}
-	friend void Login() {
-		string username, password;
+	User* Login(vector<User*>& users) {
 		string loginmethod;
+		User tmpUser;
 		cout << "Enter 1 for login, enter 2 for login as guests:";
-		getline(cin, loginmethod);
+		cin.ignore();
+		getline(cin,loginmethod);
 		if (loginmethod == "1") {
 			cout << "Enter username:";
-			getline(cin, username);
-			while (!findaccount(username)) {
-				cout << "Username does not exist, enter again";
-				getline(cin, username);
-			}
-			user login_user;
-			for (int i = 0; i < accounts.size(); i++) {
-				if (accounts[i].username == username)
-					login_user = accounts[i];
-			}
+			getline(cin, tmpUser.username);
 			cout << "Enter the password:";
-			getline(cin, password);
-			while (password != login_user.password) {
-				cout << "Password is wrong, enter again:";
-				getline(cin, password);
+			getline(cin, tmpUser.password);
+
+			while (!findaccount(tmpUser.username, users)) {
+				cout << "enter again";
+				cout << "Enter username:";
+				getline(cin, tmpUser.username);
+				cout << "Enter the password:";
+				getline(cin, tmpUser.password);
+
+
 			}
-			current_user = login_user;
-			cout << "login success\n";
+
+			for (auto x : users) {
+				if (x->username == tmpUser.username && x->password == tmpUser.password)
+				{
+					cout << "login success\n";
+					return x;
+
+				}
+			}
+			cout << "password is wrong\n";
 		}
 		else if (loginmethod == "2") {
-			current_user.authority = Guest;
-			cout << "login as guest success\n";
+			cout << "login as guests\n";
+			return users[0];
 		}
 	}
 	void printloginaccount() {
-		switch (current_user.authority) {
+		switch (authority) {
 		case 0:
-			cout << "Username:" << current_user.username << "\nPassword:" << current_user.password << "\nAuthority:admin" << endl;
+			cout << "¦WºÙ:" << username << "\n±K½X:" << password << "\nÅv­­:ºÞ²z­û" << endl;
 		break;		case 1:
-			cout << "Username:" << current_user.username << "\nPassword:" << current_user.password << "\nAuthority:user" << endl;
+			cout << "¦WºÙ:" << username << "\n±K½X:" << password << "\nÅv­­:¤@¯ë¨Ï¥ÎªÌ"<< endl;
 			break;
 		case 2:
-			cout << "guest\n";
+			cout << "'³X«È¼Ò¦¡\n";
 			break;
 		case 3:
-			cout << "not yet logged in\n";
-			break;
+			cout << "©|¥¼µn¤J\n";
+			break;	
 		}
 
 	}
-private:
-	string username;
-	string password;
-	Authority authority;
+
+	string username, password;
+	int authority;
 };
