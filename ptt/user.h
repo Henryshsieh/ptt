@@ -56,7 +56,8 @@ public:
 		}
 		return 0;
 	}
-
+	//void newAdmin(vector <User*> users)
+	//void sendMessage(vector <User*> users, string receiver)
 	User* Register(vector<User*>& users) {
 		cout << "Enter the username:";
 		cin.ignore();

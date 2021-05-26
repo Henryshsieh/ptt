@@ -181,6 +181,7 @@ void BoardManager::run()
 		{
 			
 			viewer.showPosts(currentBoard);
+			viewer.showBoardOperation(currentBoard, currentUser);
 			cin >> action;
 			if (action == 'e')
 			{
@@ -202,19 +203,19 @@ void BoardManager::run()
 		}
 		while(currentState == POST)
 		{
-			viewer.showContent(currentPost);
+			viewer.showContent(currentPost, currentUser);
 			cin >> action;
 			if (action == 'e')
 			{
 				currentState = BOARD;
 			}
-			else if (action = 'E')
+			else if (action == 'E')
 			{
 				;
 			}
-			else if (action = 'L')
+			else if (action == 'l')
 			{
-				;
+				currentBoard->leaveComment(currentPost, currentUser);
 			}
 		}
 		while(currentState == EXIT)

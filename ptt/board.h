@@ -43,7 +43,7 @@ public:
 	void setTitle();
 	void setContents();
 	void setComment();
-	
+
 	string title;
 	string contents;
 	vector<Comment> comments;
@@ -69,6 +69,8 @@ void Post::setContents() {
 		else
 			contents += buffer + "\n";
 	}
+	
+
 }
 
 void Post::setComment() {
@@ -100,28 +102,45 @@ public:
 		posts.back().setTitle();
 		posts.back().setContents();
 		posts.back().user = *user;
-		save();
+		savePost();
 	}
-	void save()
+	void leaveComment(Post* currentPost, User* currentUser)
 	{
+		currentPost->comments.push_back(Comment());
+		cout << "(0.)推\n";
+		cout << "(1.)噓\n";
+		cin >> currentPost->comments.back().vote;
+		cin.ignore();
+		cout << "enter message:\n";
+		(getline(cin, currentPost->comments.back().message));
+		currentPost->comments.back().user = *currentUser;
+		saveComments(currentPost);
+	}
+	void saveComments(Post* currentPost) {
 		ofstream file;
-		string path = "boards\\" + boardName + "\\" +posts.back().title;
-		_mkdir(path.c_str());
-		file.open((path + "\\comments.txt").c_str());
+		string path = "boards\\" + boardName + "\\" + currentPost->title;
+		//save commmets
+		file.open((path + "\\comments.txt").c_str(), std::ios::app);
 		if (!file.is_open())
 		{
 			cout << "fuck\n";
 		}
 		else
 		{
-			for (auto x : posts.back().comments)
-			{
-				file << (int)x.vote;
-				file << x.message;
-				file << x.user.username;
-			}
+			file << (int)currentPost->comments.back().vote << endl;
+			file << currentPost->comments.back().message << endl;
+			file << currentPost->comments.back().user.username << endl;
 		}
 		file.close();
+
+	}
+	void savePost()
+	{
+		ofstream file;
+		string path = "boards\\" + boardName + "\\" +posts.back().title;
+		//made dir of board
+		_mkdir(path.c_str());
+		//save contents
 		file.open((path + "\\contents.txt").c_str());
 		if (!file.is_open())
 		{
@@ -129,7 +148,7 @@ public:
 		}
 		else
 		{
-				file << posts.back().contents;
+			file << posts.back().contents;
 		}
 		ofstream ffile((path + "\\" + posts.back().user.username));//touch user
 		if (!ffile.is_open())
@@ -141,12 +160,40 @@ public:
 	}
 	void createPosts(); // create dummy posts for testing
 	vector<Post> posts;
-	//vector <user> moderator;
+	vector <User> moderator;
 	string boardName;
-	//bool addBoard(User* currentUser);
-	//bool removePost(User* currentUser);
-	//bool setMod(User* currentUser);
-	//friend bool removeBoard(vector<Board> boards, Board* currentBoard, User* currentUser);
+	//
+	//void addBoard(vector<Board> boards, User* currentUser);
+	//void editPost(Post* currentPost, User* currentUser);
+	bool setMod(vector<User*> users, User* currentUser)//設版主 不小心寫的 用admin就好
+	{
+		bool isMod = false;
+		bool isExists = false;
+		string username;
+		for (auto x : moderator)
+		{
+			if (x.username == currentUser->username)
+				isMod = true;
+		}
+		if (currentUser->authority == ADMIN || isMod)
+		{
+			cout << "Set whih one to be Mod:";
+			cin >> username;
+			for (auto x : users)
+			{
+				if (username == x->username)
+				{
+					isExists = true;
+					moderator.push_back(*x);
+				}
+			}
+		}
+		if (!isExists)
+		{
+			cout << "user does not exist.\n";
+		}
+	}
+	//void removeBoard(vector<Board> boards, User* currentUser);
 
 };
 

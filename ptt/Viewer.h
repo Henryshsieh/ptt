@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <iomanip>
 #include "board.h"
 #include "user.h"
 class Viewer
@@ -8,33 +9,50 @@ class Viewer
 public:
 	void showMenu()
 	{
+		system("cls");
 		cout << "(r).Register\n";
 		cout << "(l).Login\n";
 		cout << "(e).Exit\n";
 	}
 	void showBoards(vector<Board> boards)
 	{
+		system("cls");
 		int index = 1;
 		for (auto x:boards)
 		{
 			cout << "("<< index++ << ")" << "." << x.boardName << endl;
 		}
-		cout << "(e).Previous page" << endl;
+		cout << "(e).previous page" << endl;
 
+	}
+	void showBoardOperation(const Board* board, const User* user)
+	{
+		bool isMod = false;
+		for (auto x : board->moderator)
+		{
+			if (x.username == user->username)
+				isMod = true;
+		}
+		if (isMod || user->authority == ADMIN)
+		{
+			cout << "(R).remove board\n";
+		}
 	}
 	void showPosts(const Board* board)
 	{
+		system("cls");
 		int index = 1;
 		for (auto x:board->posts)
 		{
 			cout << "(" << index++ << ")" << "." << x.title << endl;
 		}
 		cout << "(s).submit a post" << endl;
-		cout << "(e).Previous page" << endl;
+		cout << "(e).previous page" << endl;
 
 	}
-	void showContent(const Post* post)
+	void showContent(const Post* post, User* currentUser)
 	{
+		system("cls");
 		cout << post->title << endl << endl;
 		cout <<  post->contents << endl << endl;
 		cout << "posted by "<< post->user.username << endl << endl;
@@ -46,11 +64,14 @@ public:
 			{
 				cout << "¼N ";
 			}
-			cout << x.message << " " << x.user.username << endl;
+			cout << left << setw(40) << x.message << " "  << setw(10) << x.user.username << endl;
 		}
-		cout << "(E).edit this post\n";
-		cout << "(L).Leave comments\n";
-		cout << "(e).Previous page\n";
+		if (currentUser->authority == ADMIN || post->user.username == currentUser->username)//is owner or isadmin
+		{
+			cout << "(E).edit this post\n";
+		}
+		cout << "(l).leave comments\n";
+		cout << "(e).previous page\n";
 	}
 	void showPostOperation(Post* post, User* currentUser)
 	{
