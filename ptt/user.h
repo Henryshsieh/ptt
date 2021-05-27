@@ -26,7 +26,7 @@ public:
 		password = r.password;
 		authority = r.authority;
 		return *this;
-	}
+	} 
 	
 	bool findaccount(string username, vector<User*>& users) {
 		for (auto x : users)
@@ -64,6 +64,7 @@ public:
 		getline(cin,username);
 		while (checkname(username, users)) {
 			getline(cin, username);
+			cout << username;
 		}
 		cout << "Enter the password:";
 		getline(cin, password);

@@ -54,18 +54,19 @@ public:
 
 void Post::setTitle() {
 	cout << "Title: ";
-	cin.ignore();
+	cin.ignore(22222,'\n');
 	getline(cin, title);
 }
 
 void Post::setContents() {
 	string buffer = "";
 	cout << "Editing:\n *type \"SAVE\" when you finish editing.\n";
-	cin.ignore();
 	while (getline(cin, buffer)) {
-		cout << buffer <<endl;
 		if (buffer == "SAVE")
+		{
 			cout << "contents saved.\n";
+			break;
+		}
 		else
 			contents += buffer + "\n";
 	}
@@ -94,7 +95,7 @@ public:
 		boardName = _boardName;
 		posts.assign(_posts.begin(), _posts.end());
 	}
-	void editBoard();//user as paramater
+	void editBoard();
 	int selectPost();
 	void submitPost(User* user)
 	{
@@ -156,14 +157,15 @@ public:
 			cout << "fuck\n";
 		}
 		ffile.close();
+		file.open((path + "\\comments.txt").c_str());
+		file.close();
+
 
 	}
 	void createPosts(); // create dummy posts for testing
 	vector<Post> posts;
 	vector <User> moderator;
 	string boardName;
-	//
-	//void addBoard(vector<Board> boards, User* currentUser);
 	//void editPost(Post* currentPost, User* currentUser);
 	bool setMod(vector<User*> users, User* currentUser)//設版主 不小心寫的 用admin就好
 	{

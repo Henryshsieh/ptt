@@ -14,13 +14,17 @@ public:
 		cout << "(l).Login\n";
 		cout << "(e).Exit\n";
 	}
-	void showBoards(vector<Board> boards)
+	void showBoards(vector<Board> boards, User* currentUser)
 	{
 		system("cls");
 		int index = 1;
 		for (auto x:boards)
 		{
 			cout << "("<< index++ << ")" << "." << x.boardName << endl;
+		}
+		if (currentUser->authority == ADMIN)
+		{
+			cout << "(c).create new board" << endl;
 		}
 		cout << "(e).previous page" << endl;
 
@@ -35,7 +39,7 @@ public:
 		}
 		if (isMod || user->authority == ADMIN)
 		{
-			cout << "(R).remove board\n";
+			cout << "(r).remove board\n";
 		}
 	}
 	void showPosts(const Board* board)

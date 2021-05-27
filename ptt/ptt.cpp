@@ -26,4 +26,5 @@ int main()
 	Board HatePolitics;
 	HatePolitics.createPosts();
 	HatePolitics.editBoard();
+	
 }

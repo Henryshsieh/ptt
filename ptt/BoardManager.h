@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <list>
 #include <fstream>
 #include "board.h"
 #include "user.h"
@@ -23,6 +24,39 @@ public:
 	void run();
 	void load();
 	void save();
+	void removeBoard()
+	{
+		cout << "are you sure about this?y/n\n";
+		char sure;
+		cin >> sure;
+		if (sure == 'y')
+		{
+			for (int i = 0; i < boards.size(); i++)
+			{
+				if (boards[i].boardName == currentBoard->boardName)
+				{
+					filesystem::path path = "boards/" + currentBoard->boardName; ;
+					filesystem::remove_all(path);
+					boards.erase(boards.begin() + i);
+					break;
+				}
+			}
+		
+		}
+
+	}
+
+	void addBoard()
+	{
+		boards.push_back(Board());
+		cout << "Enter board name:\n";
+		cin.ignore();
+		getline(cin, boards.back().boardName);
+		string path = "boards\\" + boards.back().boardName;
+		//made dir of board
+		_mkdir(path.c_str());
+		
+	}
 
 	Viewer viewer;
 	vector<Board> boards;
@@ -36,7 +70,7 @@ BoardManager::BoardManager()
 {
 	currentBoard = NULL;
 	currentPost = NULL;
-	currentUser = NULL;
+	currentUser = new User;
 	currentState = MENU;
 	load();
 
@@ -132,7 +166,6 @@ void BoardManager::run()
 {
 	while (true)
 	{
-		currentUser = new User();
 		char action;
 		while (currentState == MENU)
 		{
@@ -161,11 +194,15 @@ void BoardManager::run()
 		}	
 		while(currentState == SELECT_BOARD)
 		{
-			viewer.showBoards(boards);
+			viewer.showBoards(boards, currentUser);
 			cin >> action;
 			if (action == 'e')
 			{
 				currentState = MENU;
+			}
+			else if (action == 'c' && currentUser->authority == ADMIN)
+			{
+				addBoard();
 			}
 			else if (isdigit(action))
 			{
@@ -185,6 +222,11 @@ void BoardManager::run()
 			cin >> action;
 			if (action == 'e')
 			{
+				currentState = SELECT_BOARD;
+			}
+			else if (action == 'r' && currentUser->authority == ADMIN)
+			{
+				removeBoard();
 				currentState = SELECT_BOARD;
 			}
 			else if (action == 's')
@@ -209,9 +251,9 @@ void BoardManager::run()
 			{
 				currentState = BOARD;
 			}
-			else if (action == 'E')
+			else if (action == 'E' && currentPost->user.username == currentUser->username)
 			{
-				;
+				currentBoard;
 			}
 			else if (action == 'l')
 			{
