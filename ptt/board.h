@@ -181,7 +181,7 @@ public:
 		{
 			cout << "Set whih one to be Mod:";
 			cin >> username;
-			for (auto x : users)
+			for (auto x : users)	
 			{
 				if (username == x->username)
 				{
