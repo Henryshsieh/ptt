@@ -31,8 +31,10 @@ public:
 	bool findaccount(string username, vector<User*>& users) {
 		for (auto x : users)
 		{
-			if (x->username == username)
+			if (x->username == username) {
+			//	cout << x->username << username << endl;
 				return 1;
+			}
 		}
 		return 0;
 	}
@@ -64,7 +66,6 @@ public:
 		getline(cin,username);
 		while (checkname(username, users)) {
 			getline(cin, username);
-			cout << username;
 		}
 		cout << "Enter the password:";
 		getline(cin, password);
