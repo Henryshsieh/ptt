@@ -28,17 +28,17 @@ public:
 		return *this;
 	} 
 	
-	bool findaccount(string username, vector<User*>& users) {
+	bool findaccount(string username, vector<User*> users) {
 		for (auto x : users)
 		{
+
 			if (x->username == username) {
-			//	cout << x->username << username << endl;
 				return 1;
 			}
 		}
 		return 0;
 	}
-	bool checkname(string username, vector<User*>& users){
+	bool checkname(string username, vector<User*> users){
 		if (findaccount(username, users)) {
 			cout << "Username had been used, enter again:";
 			return 1;
@@ -63,7 +63,9 @@ public:
 	User* Register(vector<User*>& users) {
 		cout << "Enter the username:";
 		cin.ignore();
+		string username;
 		getline(cin,username);
+
 		while (checkname(username, users)) {
 			getline(cin, username);
 		}
