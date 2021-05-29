@@ -5,4 +5,4 @@
 - [X] delete posts
 - [X] save all existing posts to a file
 
-![image](https://github.com/jann7790/ptt/blob/master/Screenshot%202021-05-24%20203242.png)
+![image](https://github.com/jann7790/ptt/blob/master/InkedScreenshot%202021-05-24%20203242_LI.jpg)
