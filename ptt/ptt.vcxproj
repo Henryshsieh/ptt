@@ -140,7 +140,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="boards\HatePoltics\破麻\qaqwazzzzzwsd" />
     <ClCompile Include="ptt.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="accounts.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="boards\HatePoltics\陳水扁\dick7552sfd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

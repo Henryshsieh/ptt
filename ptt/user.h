@@ -143,7 +143,10 @@ public:
 		}
 
 	}
-
+	void mail()
+	{
+		;
+	}
 	string username, password;
 	int authority;
 };

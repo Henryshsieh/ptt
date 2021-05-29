@@ -14,6 +14,7 @@ class BoardManager
 public:
 	enum state
 	{
+		LOGIN,
 		MENU,
 		SELECT_BOARD,
 		BOARD,
@@ -71,7 +72,7 @@ BoardManager::BoardManager()
 	currentBoard = NULL;
 	currentPost = NULL;
 	currentUser = new User;
-	currentState = MENU;
+	currentState = LOGIN;
 	load();
 
 }
@@ -153,9 +154,18 @@ void BoardManager::load()//load boards and account infomation
 				}
 				str.close();
 			}
-			else
+			else if (file.path().filename().string() == "user.txt")//load article
 			{
-				boards.back().posts.back().user.username = file.path().filename().string();
+				ifstream str;
+				string buffer = "";
+				str.open(file.path().c_str());
+				if (!str.is_open())
+				{
+					cout << file.path().string() << "cant be open\n";
+				}
+				str >> boards.back().posts.back().user.username;
+
+				str.close();
 			}
 		}
 		cout << dirLevel << file.path() << endl;
@@ -167,19 +177,19 @@ void BoardManager::run()
 	while (true)
 	{
 		char action;
-		while (currentState == MENU)
+		while (currentState == LOGIN)
 		{
-			viewer.showMenu();
+			viewer.showLoginMenu();
 			cin >> action;
 			if (action == 'r')
 			{
 				currentUser = currentUser->Register(users);
-				currentState = SELECT_BOARD;
+				currentState = MENU;
 			}
 			else if (action == 'l')
 			{
 				currentUser = currentUser->Login(users);
-				currentState = SELECT_BOARD;
+				currentState = MENU;
 
 			}
 			else if (action == 'e')
@@ -192,6 +202,32 @@ void BoardManager::run()
 				cout << "enter again\n";
 			}
 		}	
+		while (currentState == MENU)
+		{
+			viewer.showMenu();
+			cin >> action;
+			if (action == 'g')
+			{
+
+			}
+			else if (action == 'm')
+			{
+				currentUser->mail();
+			}
+			else if (action == 's')
+			{
+				currentState = SELECT_BOARD;
+			}
+			else if (action == 'e')
+			{
+				currentState = LOGIN;
+				break;
+			}
+			else
+			{
+				cout << "enter again\n";
+			}
+		}
 		while(currentState == SELECT_BOARD)
 		{
 			viewer.showBoards(boards, currentUser);
@@ -253,7 +289,7 @@ void BoardManager::run()
 			}
 			else if (action == 'E' && currentPost->user.username == currentUser->username)
 			{
-				currentBoard;
+				currentBoard->editPost(currentPost, currentUser);
 			}
 			else if (action == 'l')
 			{

@@ -10,6 +10,15 @@ public:
 	void showMenu()
 	{
 		system("cls");
+		cout << "(g).Game\n";
+		cout << "(m).Mail\n";
+		cout << "(s).Select Board\n";
+		cout << "(e).Exit\n";
+	}
+
+	void showLoginMenu()
+	{
+		system("cls");
 		cout << "(r).Register\n";
 		cout << "(l).Login\n";
 		cout << "(e).Exit\n";

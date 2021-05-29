@@ -110,7 +110,20 @@ public:
 		currentPost->comments.push_back(Comment());
 		cout << "(0.)推\n";
 		cout << "(1.)噓\n";
-		cin >> currentPost->comments.back().vote;
+		char vote;
+		while (cin >> vote)
+		{
+			if (vote == '0')
+			{
+				currentPost->comments.back().vote = 0;
+				break;
+			}
+			else if (vote == '1')
+			{
+				currentPost->comments.back().vote = 1;
+				break;
+			}
+		}
 		cin.ignore();
 		cout << "enter message:\n";
 		(getline(cin, currentPost->comments.back().message));
@@ -151,10 +164,14 @@ public:
 		{
 			file << posts.back().contents;
 		}
-		ofstream ffile((path + "\\" + posts.back().user.username));//touch user
+		ofstream ffile((path + "\\" + "user.txt"));//touch user
 		if (!ffile.is_open())
 		{
 			cout << "fuck\n";
+		}
+		else
+		{
+			ffile << posts.back().user.username << endl;
 		}
 		ffile.close();
 		file.open((path + "\\comments.txt").c_str());
@@ -166,7 +183,48 @@ public:
 	vector<Post> posts;
 	vector <User> moderator;
 	string boardName;
-	//void editPost(Post* currentPost, User* currentUser);
+	void editPost(Post* currentPost, User* currentUser)
+	{
+		ofstream ofile("cache.txt");
+		ofile << "title:\n";
+		ofile << currentPost->title << endl;
+		ofile << "contents:\n";
+		ofile << currentPost->contents<<endl;
+		ofile << "Edited by " << currentUser->username << endl;
+		ofile << "comments:\n";
+		for (auto i : currentPost->comments)
+		{
+			ofile << i.vote << " " << i.message << " " <<  i.user.username << endl;
+		}
+		ofile.close();
+		system("notepad /A cache.txt");
+		ifstream ifile("cache.txt");
+		string buffer;
+		currentPost->title = "";
+		currentPost->contents = "";
+		getline(ifile, buffer);
+		getline(ifile, buffer);
+		currentPost->title = buffer;
+		getline(ifile, buffer);
+		char recv;
+		while (getline(ifile, buffer))
+		{
+			if (buffer == "comments:")
+				break;
+			currentPost->contents += buffer + '\n';
+		}
+		int vote;
+		string message;
+		string name;
+		currentPost->comments.clear();
+		while (ifile >> vote >> message >> name)
+		{
+			currentPost->comments.push_back(Comment());
+			currentPost->comments.back().vote = vote;
+			currentPost->comments.back().message = message;
+			currentPost->comments.back().user.username = name;
+		}
+	}
 	bool setMod(vector<User*> users, User* currentUser)//設版主 不小心寫的 用admin就好
 	{
 		bool isMod = false;
