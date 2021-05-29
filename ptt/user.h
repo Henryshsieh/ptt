@@ -19,31 +19,31 @@ public:
 		authority = GUEST;
 
 	}
-	User(string name, string _password, int auth):username(name), password(_password), authority(auth){};
+	User(string name, string _password, int auth) :username(name), password(_password), authority(auth) {};
 	User& operator = (User r)
 	{
 		username = r.username;
 		password = r.password;
 		authority = r.authority;
 		return *this;
-	} 
-	
+	}
+
 	bool findaccount(string username, vector<User*>& users) {
 		for (auto x : users)
 		{
 			if (x->username == username) {
-			//	cout << x->username << username << endl;
+				//	cout << x->username << username << endl;
 				return 1;
 			}
 		}
 		return 0;
 	}
-	bool checkname(string username, vector<User*>& users){
+	bool checkname(string username, vector<User*>& users) {
 		if (findaccount(username, users)) {
 			cout << "Username had been used, enter again:";
 			return 1;
 		}
-		int blank = username.find_first_of(" ",0);
+		int blank = username.find_first_of(" ", 0);
 		if (blank != string::npos) {
 			cout << "Username cannot contain spaces, enter again:";
 			return 1;
@@ -63,7 +63,7 @@ public:
 	User* Register(vector<User*>& users) {
 		cout << "Enter the username:";
 		cin.ignore();
-		getline(cin,username);
+		getline(cin, username);
 		while (checkname(username, users)) {
 			getline(cin, username);
 		}
@@ -93,7 +93,7 @@ public:
 		User tmpUser;
 		cout << "Enter 1 for login, enter 2 for login as guests:";
 		cin.ignore();
-		getline(cin,loginmethod);
+		getline(cin, loginmethod);
 		if (loginmethod == "1") {
 			cout << "Enter username:";
 			getline(cin, tmpUser.username);
@@ -130,14 +130,14 @@ public:
 		case 0:
 			cout << "¦WºÙ:" << username << "\n±K½X:" << password << "\nÅv­­:ºÞ²z­û" << endl;
 		break;		case 1:
-			cout << "¦WºÙ:" << username << "\n±K½X:" << password << "\nÅv­­:¤@¯ë¨Ï¥ÎªÌ"<< endl;
+			cout << "¦WºÙ:" << username << "\n±K½X:" << password << "\nÅv­­:¤@¯ë¨Ï¥ÎªÌ" << endl;
 			break;
 		case 2:
 			cout << "'³X«È¼Ò¦¡\n";
 			break;
 		case 3:
 			cout << "©|¥¼µn¤J\n";
-			break;	
+			break;
 		}
 
 	}
