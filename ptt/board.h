@@ -108,8 +108,8 @@ public:
 	void leaveComment(Post* currentPost, User* currentUser)
 	{
 		currentPost->comments.push_back(Comment());
-		cout << "(0.)推\n";
-		cout << "(1.)噓\n";
+		cout << "(0.)tuei (praise)\n";
+		cout << "(1.)hsu (disapprove)\n";
 		char vote;
 		while (cin >> vote)
 		{
@@ -225,7 +225,7 @@ public:
 			currentPost->comments.back().user.username = name;
 		}
 	}
-	bool setMod(vector<User*> users, User* currentUser)//設版主 不小心寫的 用admin就好
+	bool setMod(vector<User*> users, User* currentUser) //set board admin (login as admin)
 	{
 		bool isMod = false;
 		bool isExists = false;
