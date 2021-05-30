@@ -103,7 +103,7 @@ public:
 		posts.back().setTitle();
 		posts.back().setContents();
 		posts.back().user = *user;
-		savePost();
+		savePost(&posts.back());
 	}
 	void leaveComment(Post* currentPost, User* currentUser)
 	{
@@ -141,17 +141,20 @@ public:
 		}
 		else
 		{
-			file << (int)currentPost->comments.back().vote << endl;
-			file << currentPost->comments.back().message << endl;
-			file << currentPost->comments.back().user.username << endl;
+			if (!currentPost->comments.empty())
+			{
+				file << (int)currentPost->comments.back().vote << endl;
+				file << currentPost->comments.back().message << endl;
+				file << currentPost->comments.back().user.username << endl;
+			}
 		}
 		file.close();
 
 	}
-	void savePost()
+	void savePost(Post* currentPost)
 	{
 		ofstream file;
-		string path = "boards\\" + boardName + "\\" +posts.back().title;
+		string path = "boards\\" + boardName + "\\" + currentPost->title;
 		//made dir of board
 		_mkdir(path.c_str());
 		//save contents
@@ -162,7 +165,7 @@ public:
 		}
 		else
 		{
-			file << posts.back().contents;
+			file << currentPost->contents;
 		}
 		ofstream ffile((path + "\\" + "user.txt"));//touch user
 		if (!ffile.is_open())
@@ -171,7 +174,7 @@ public:
 		}
 		else
 		{
-			ffile << posts.back().user.username << endl;
+			ffile << currentPost->user.username << endl;
 		}
 		ffile.close();
 		file.open((path + "\\comments.txt").c_str());
@@ -224,6 +227,13 @@ public:
 			currentPost->comments.back().message = message;
 			currentPost->comments.back().user.username = name;
 		}
+		savePost(currentPost);
+		ofstream file;
+		string path = "boards\\" + boardName + "\\" + currentPost->title;
+		//save commmets
+		file.open((path + "\\comments.txt").c_str());
+		file.close();
+		saveComments(currentPost);
 	}
 	bool setMod(vector<User*> users, User* currentUser)//設版主 不小心寫的 用admin就好
 	{

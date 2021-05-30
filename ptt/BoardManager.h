@@ -138,7 +138,7 @@ void BoardManager::load()//load boards and account infomation
 				}
 				str.close();
 			}
-			else if (file.path().filename().string() == "content.txt")//load article
+			else if (file.path().filename().string() == "contents.txt")//load article
 			{
 				ifstream str;
 				string buffer = "";
@@ -287,7 +287,7 @@ void BoardManager::run()
 			{
 				currentState = BOARD;
 			}
-			else if (action == 'E' && currentPost->user.username == currentUser->username)
+			else if (action == 'E' && (currentUser->authority == ADMIN || currentPost->user.username == currentUser->username))
 			{
 				currentBoard->editPost(currentPost, currentUser);
 			}
