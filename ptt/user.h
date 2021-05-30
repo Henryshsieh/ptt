@@ -10,6 +10,10 @@ enum Authority {
 	GUEST = 2,
 	Notlogin = 3
 };
+struct mail
+{
+	string article, content, sender;
+};
 class User {
 public:
 	User()
@@ -127,26 +131,89 @@ public:
 			return users[0];
 		}
 	}
-	void printloginaccount() {
-		switch (authority) {
-		case 0:
-			cout << "¦WºÙ:" << username << "\n±K½X:" << password << "\nÅv­­:ºÞ²z­û" << endl;
-		break;		case 1:
-			cout << "¦WºÙ:" << username << "\n±K½X:" << password << "\nÅv­­:¤@¯ë¨Ï¥ÎªÌ" << endl;
-			break;
-		case 2:
-			cout << "'³X«È¼Ò¦¡\n";
-			break;
-		case 3:
-			cout << "©|¥¼µn¤J\n";
-			break;
+	void writemail(bool remail,string reart,string sender,string receiver,vector<User*>& users) {
+		string buffer = "",contents = "";
+		mail currentmail;
+		system("cls");
+		if (remail) {
+			if (reart[0] == 'R' && reart[1] == 'e')
+				currentmail.article = reart;
+			else
+				currentmail.article = "Re:"+reart;
 		}
-
+		else {
+			cout << "Article:";
+			cin >> currentmail.article;
+		}
+		cout << "type \"SAVE\" when you finish editing.\nContnet:\n";
+		while (getline(cin, buffer)) {
+			if (buffer == "SAVE")
+			{
+				break;
+			}
+			else
+				contents += buffer + "\n";
+		}
+		currentmail.content = contents;
+		currentmail.sender = sender;
+		if (remail) {
+			for (auto x : users) {
+				if (x->username == receiver)
+					x->receivemail.push_back(currentmail);
+			}
+		}
+		else {
+			cout << "Receiver:";
+			cin >> receiver;
+			while (!findaccount(receiver, users)) {
+				cout << "No user found,enter again:";
+				cin >> receiver;
+			}
+			for (auto x : users) {
+				if (x->username == receiver)
+					x->receivemail.push_back(currentmail);
+			}
+		}
 	}
-	void mail()
-	{
-		;
+	void email(vector<User*>& users)
+	{	
+		system("cls");
+		char action;
+		cout<<"(c).check email\n(w).write email\n(p).previous page\n";
+		cin >> action;
+		system("cls");
+		if (action == 'c') {
+			if (receivemail.size() == 0) {
+				cout << "No receive email\n";
+				cout << "(e).exit\n";
+				cin >> action;
+			}
+			else {
+				int index;
+				for (int i = 1; i <= receivemail.size(); i++)
+					cout << "(" << i << ")"<<receivemail[i-1].article << " from "<< receivemail[i-1].sender << endl;
+				cin >> index;
+				while (index<1 || index>index > receivemail.size()) {
+					cout << "Enter again\n";
+					cin >> index;
+				}
+				mail currentmail = receivemail[index - 1];
+				system("cls");
+				cout << currentmail.article << " from " << currentmail.sender << ":\n" << currentmail.content;
+				cout << "(r).reply\n(e).exit\n";
+				cin >> action;
+				if (action == 'r') {
+					writemail(1, currentmail.article, username, currentmail.sender, users);
+				}
+				else
+					email(users);
+			}
+		}
+		else if (action == 'w') {
+			writemail(0,"", username,"", users);
+		}
 	}
 	string username, password;
 	int authority;
+	vector<mail> receivemail;
 };

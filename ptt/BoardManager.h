@@ -212,7 +212,7 @@ void BoardManager::run()
 			}
 			else if (action == 'm')
 			{
-				currentUser->mail();
+				currentUser->email(users);
 			}
 			else if (action == 's')
 			{
