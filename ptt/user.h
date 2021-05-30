@@ -1,8 +1,10 @@
 #pragma once	
 #include <iostream>
 #include <vector>
+#include<direct.h>
 #include<string>
 #include <fstream>
+
 using namespace std;
 enum Authority {
 	ADMIN = 0,
@@ -159,7 +161,27 @@ public:
 		if (remail) {
 			for (auto x : users) {
 				if (x->username == receiver)
+				{
 					x->receivemail.push_back(currentmail);
+					ofstream file;
+					string path = "mails\\" + receiver + "\\";
+					_mkdir(path.c_str());
+					//save contents
+					file.open((path + currentmail.article));
+					if (!file.is_open())
+					{
+						cout << "fuck\n";
+					}
+					else
+					{
+						file << "sender:\n";
+						file << sender << endl;
+						file << "contents:\n";
+						file << contents;
+					}
+					file.close();
+
+				}
 			}
 		}
 		else {
@@ -171,7 +193,27 @@ public:
 			}
 			for (auto x : users) {
 				if (x->username == receiver)
+				{
 					x->receivemail.push_back(currentmail);
+					ofstream file;
+					string path = "mails\\" + receiver + "\\";
+					//made dir 
+					_mkdir(path.c_str());
+					//save contents
+					file.open((path + currentmail.article).c_str());
+					if (!file.is_open())
+					{
+						cout << "fuck\n";
+					}
+					else
+					{
+						file << "sender:\n";
+						file << sender << endl;
+						file << "contents:\n";
+						file << contents;
+					}
+					file.close();
+				}
 			}
 		}
 	}
