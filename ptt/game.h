@@ -29,14 +29,14 @@ void poker() {
 	char start;
 	srand(time(NULL));
 	cin >> start;
-	while (start=='s') {
+	while (start == 's') {
 		system("cls");
 		cout << "Your cards:\n";
 		ca = deal(face, suit);
 		cout << "\n\nOpponent's cards:\n";
 		cb = deal(face, suit);
 		cout << "\n\n";
-		if(ca>cb)
+		if (ca > cb)
 			cout << "You lose\n\n";
 		else if (cb > ca)
 			cout << "You win\n\n";
@@ -173,7 +173,7 @@ int deal(string face[13], string suit[4]) {
 void climbladder() {
 	srand(time(NULL));
 	int num_of_candidates, ladder_size, dest;
-	char start='a';
+	char start = 'a';
 	while (start == 'a') {
 		system("cls");
 		cout << "How many candidates: ";
@@ -191,11 +191,34 @@ void climbladder() {
 		for (int i = 0; i < ladder_size; i++)
 			rails[i] = rand() % (num_of_candidates - 1);
 
-		//===== print the ladder
-		for (int i = 0; i < ladder_size; i++)
-			cout << rails[i] << " ";
+		// print the ladder
+			//for (int i = 0; i < ladder_size; i++)
+			//	cout << rails[i] << " ";
+			//cout << endl;
+		for (int i = 0; i < ladder_size; i++) {
+			for (int j = 0; j < num_of_candidates; j++) {
+				cout << "|";
+				if (rails[i] == j)
+					cout << "_";
+				else
+					cout << " ";
+			}
+			cout << endl;
+		}
+		for (int i = 0; i < num_of_candidates; i++) {
+			cout << "| ";
+		}
 		cout << endl;
-		//=====
+		/*
+		|_| | |
+		| | |_|
+		| |_| |
+		|_| | |
+		| |_| |
+		| |_| |
+		|_| | |
+		| | | |
+		*/
 
 		for (int i = 0; i < num_of_candidates; i++) {
 			dest = i;
