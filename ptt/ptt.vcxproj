@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClInclude Include="board.h" />
     <ClInclude Include="BoardManager.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="Viewer.h" />
   </ItemGroup>

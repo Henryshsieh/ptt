@@ -6,6 +6,7 @@
 #include "user.h"
 #include "Viewer.h"
 #include <filesystem>
+#include "game.h"
 
 using namespace std;
 
@@ -208,7 +209,10 @@ void BoardManager::run()
 			cin >> action;
 			if (action == 'g')
 			{
-
+				viewer.showgames();
+				cin >> action;
+				if (action == 'p')
+					poker();
 			}
 			else if (action == 'm')
 			{

@@ -57,7 +57,7 @@ public:
 	bool checkpassword(string password) {
 		int blank = password.find_first_of(" ", 0);
 		if (blank != string::npos) {
-			cout << "±K½X¤£¥i§tªÅ¥ÕÁä ½Ð¦A¿é¤J¤@¦¸:\n";
+			cout << "password cannot contain spaces, enter again:";
 			return 1;
 		}
 		return 0;
