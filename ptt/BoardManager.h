@@ -213,6 +213,8 @@ void BoardManager::run()
 				cin >> action;
 				if (action == 'p')
 					poker();
+				else if (action == 'c')
+					climbladder();
 			}
 			else if (action == 'm')
 			{

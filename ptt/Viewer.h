@@ -88,6 +88,7 @@ public:
 	}
 	void showgames() {
 		system("cls");
+		cout << "(c).climb ladder\n";
 		cout << "(p).poker\n";
 	}
 	void showPostOperation(Post* post, User* currentUser)
