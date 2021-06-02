@@ -90,6 +90,7 @@ public:
 		system("cls");
 		cout << "(c).climb ladder\n";
 		cout << "(p).poker\n";
+		cout << "(P).Pikachu volley ball\n";
 	}
 	void showPostOperation(Post* post, User* currentUser)
 	{

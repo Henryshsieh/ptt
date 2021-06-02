@@ -47,7 +47,65 @@ public:
 		}
 
 	}
+	void loadMail()
+	{
+		string path = "mails";
+		string username;
+		for (const auto& file : std::filesystem::recursive_directory_iterator(path))
+		{
+			int dirLevel = 0;//directory level
+			for (int i = 0; i < file.path().string().length(); i++)
+			{
+				if (file.path().string()[i] == '\\')
+					dirLevel++;
+			}
+			cout << dirLevel << file.path() << endl;
 
+			if (dirLevel == 1)
+			{
+				for (auto x : users)
+				{
+					if (x->username == file.path().filename().string())
+					{
+						username = x->username;
+						break;
+					}
+				}
+			}
+			else if (dirLevel == 2)
+			{
+
+				for (auto x : users)
+				{
+					if (x->username == username)
+					{
+						x->receivemail.push_back(mail());
+
+						x->receivemail.back().article = file.path().filename().string();
+						ifstream f;
+						f.open(file.path().string());
+						if (f.is_open())
+						{
+							string buf;
+							f >> buf;
+							f >> buf;
+							x->receivemail.back().sender = buf;
+							f >> buf;
+							while (f >> buf)
+							{
+								x->receivemail.back().content += buf + '\n';
+							}
+
+						}
+						f.close();
+						break;
+					}
+				}
+			}
+			
+		}
+
+	}
 	void addBoard()
 	{
 		boards.push_back(Board());
@@ -75,6 +133,7 @@ BoardManager::BoardManager()
 	currentUser = new User;
 	currentState = LOGIN;
 	load();
+	loadMail();
 
 }
 void BoardManager::load()//load boards and account infomation
@@ -89,6 +148,7 @@ void BoardManager::load()//load boards and account infomation
 		users.push_back(new User(username, password, auth));
 	}
 	file.close();
+
 	string path = "boards";
 	int i = 0;
 	for (const auto& file : std::filesystem::recursive_directory_iterator(path))
@@ -215,6 +275,8 @@ void BoardManager::run()
 					poker();
 				else if (action == 'c')
 					climbladder();
+				else if (action == 'P')
+					Pikachu();
 			}
 			else if (action == 'm')
 			{

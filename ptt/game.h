@@ -235,5 +235,9 @@ void climbladder() {
 		cin >> start;
 	}
 }
+void Pikachu()
+{
+	system(".\\Pokemon_20.exe");
+}
 
 
