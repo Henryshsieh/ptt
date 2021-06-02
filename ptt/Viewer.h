@@ -86,6 +86,11 @@ public:
 		cout << "(l).leave comments\n";
 		cout << "(e).previous page\n";
 	}
+	void showgames() {
+		system("cls");
+		cout << "(c).climb ladder\n";
+		cout << "(p).poker\n";
+	}
 	void showPostOperation(Post* post, User* currentUser)
 	{
 		/*

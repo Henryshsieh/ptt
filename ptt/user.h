@@ -59,7 +59,7 @@ public:
 	bool checkpassword(string password) {
 		int blank = password.find_first_of(" ", 0);
 		if (blank != string::npos) {
-			cout << "±K½X¤£¥i§tªÅ¥ÕÁä ½Ð¦A¿é¤J¤@¦¸:\n";
+			cout << "password cannot contain spaces, enter again:";
 			return 1;
 		}
 		return 0;
@@ -105,19 +105,12 @@ public:
 		if (loginmethod == "1") {
 			cout << "Enter username:";
 			getline(cin, tmpUser.username);
+			while (!findaccount(tmpUser.username, users)) {
+				cout << "No username found,enter again:";
+				getline(cin, tmpUser.username);
+			}
 			cout << "Enter the password:";
 			getline(cin, tmpUser.password);
-
-			while (!findaccount(tmpUser.username, users)) {
-				cout << "enter again";
-				cout << "Enter username:";
-				getline(cin, tmpUser.username);
-				cout << "Enter the password:";
-				getline(cin, tmpUser.password);
-
-
-			}
-
 			for (auto x : users) {
 				if (x->username == tmpUser.username && x->password == tmpUser.password)
 				{
@@ -126,7 +119,18 @@ public:
 
 				}
 			}
-			cout << "password is wrong\n";
+			while (1) {
+				cout << "password is wrong,enter again:";
+				getline(cin, tmpUser.password);
+				for (auto x : users) {
+					if (x->username == tmpUser.username && x->password == tmpUser.password)
+					{
+						cout << "login success\n";
+						return x;
+
+					}
+				}
+			}
 		}
 		else if (loginmethod == "2") {
 			cout << "login as guests\n";
@@ -138,10 +142,7 @@ public:
 		mail currentmail;
 		system("cls");
 		if (remail) {
-			if (reart[0] == 'R' && reart[1] == 'e')
-				currentmail.article = reart;
-			else
-				currentmail.article = "Re:"+reart;
+				currentmail.article = "re"+reart;
 		}
 		else {
 			cout << "Article:";
