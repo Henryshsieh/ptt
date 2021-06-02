@@ -239,5 +239,8 @@ void Pikachu()
 {
 	system(".\\Pokemon_20.exe");
 }
-
+void Chess()
+{
+	system(".\\chess.exe");
+}
 

@@ -277,6 +277,8 @@ void BoardManager::run()
 					climbladder();
 				else if (action == 'P')
 					Pikachu();
+				else if (action == 'C')
+					Chess();
 			}
 			else if (action == 'm')
 			{
