@@ -279,6 +279,8 @@ void BoardManager::run()
 					Pikachu();
 				else if (action == 'C')
 					Chess();
+				else if (action == 't')
+					ticTacToe();
 			}
 			else if (action == 'm')
 			{

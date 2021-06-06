@@ -92,6 +92,8 @@ public:
 		cout << "(p).poker\n";
 		cout << "(P).Pikachu volley ball\n";
 		cout << "(C).chess\n";
+		cout << "(t).ticTacToe\n";
+		cout << "(q).quit\n";
 
 	}
 	void showPostOperation(Post* post, User* currentUser)
