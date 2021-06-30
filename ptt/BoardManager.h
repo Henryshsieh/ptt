@@ -346,6 +346,8 @@ void BoardManager::run()
 				if (action - '0' - 1 < currentBoard->posts.size() && action - '0' - 1 >= 0)
 				{
 					currentPost = &currentBoard->posts[action - '0' - 1];
+					if (currentPost->title.find("removed") != string::npos)
+						continue;
 					currentState = POST;
 				}
 
@@ -367,6 +369,17 @@ void BoardManager::run()
 			{
 				currentBoard->leaveComment(currentPost, currentUser);
 			}
+			else if(action == 'd' && (currentUser->authority == ADMIN || currentPost->user.username == currentUser->username))
+			{
+				currentBoard->deletePost(currentBoard, currentPost, currentUser);
+				currentState = BOARD;
+			}
+			else if (action == 'r' && (currentUser->authority == ADMIN))
+			{
+				currentBoard->deleteComment(currentBoard, currentPost, currentUser);
+
+			}
+
 		}
 		while(currentState == EXIT)
 		{

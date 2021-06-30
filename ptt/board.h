@@ -5,6 +5,8 @@
 #include <string>
 #include <fstream>
 #include<direct.h>
+#include <iostream>
+#include <filesystem>
 
 using namespace std;
 enum vote
@@ -108,8 +110,8 @@ public:
 	void leaveComment(Post* currentPost, User* currentUser)
 	{
 		currentPost->comments.push_back(Comment());
-		cout << "(0.)±À\n";
-		cout << "(1.)¼N\n";
+		cout << "(0.)ï¿½ï¿½\n";
+		cout << "(1.)ï¿½N\n";
 		char vote;
 		while (cin >> vote)
 		{
@@ -235,7 +237,7 @@ public:
 		file.close();
 		saveComments(currentPost);
 	}
-	bool setMod(vector<User*> users, User* currentUser)//³]ª©¥D ¤£¤p¤ß¼gªº ¥Îadmin´N¦n
+	bool setMod(vector<User*> users, User* currentUser)//ï¿½]ï¿½ï¿½ï¿½D ï¿½ï¿½ï¿½pï¿½ß¼gï¿½ï¿½ ï¿½ï¿½adminï¿½Nï¿½n
 	{
 		bool isMod = false;
 		bool isExists = false;
@@ -263,6 +265,68 @@ public:
 			cout << "user does not exist.\n";
 		}
 	}
+	void deletePost(Board* currentBoard ,Post* currentPost, User* currentUser)
+	{
+		string buffer;
+		cout << "reason of deleting:";
+		cin.ignore();
+		getline(cin, buffer);
+		string path = "boards\\" + boardName + "\\" + currentPost->title;
+		(std::filesystem::remove_all(path));
+		currentPost->title += "(this post has been removed by admin. reason:" + buffer + ")";
+		savePost(currentPost);
+		ofstream file;
+		//save commmets
+		path = "boards\\" + boardName + "\\" + currentPost->title;
+		file.open((path + "\\comments.txt").c_str());
+		file.close();
+		saveComments(currentPost);
+		
+	}
+	void deleteComment(Board* currentBoard, Post* currentPost, User* currentUser)
+	{
+		int i = 0;
+		for (auto x : currentPost->comments)
+		{
+			if(x.message.find("The comment has been delete by admin. reason:") == string::npos)
+				cout << "(" << i << ")" << left << setw(40) << x.message << " " << setw(10) << x.user.username << endl;
+			i++;
+
+		}
+		cout << "which one do you want to remove:";
+		cin >> i;
+		string buffer;
+		cout << "reason of deleting:";
+		cin.ignore();
+		string path = "boards\\" + boardName + "\\" + currentPost->title;
+
+		getline(cin, buffer);
+		currentPost->comments[i].message = "The comment has been delete by admin. reason:" + buffer;
+		savePost(currentPost);
+		//save commmets
+
+		path = "boards\\" + boardName + "\\" + currentPost->title;
+		ofstream file;
+		file.open((path + "\\comments.txt").c_str());
+
+		if (!file.is_open())
+		{
+			cout << "fuck\n";
+		}
+		else
+		{
+			for (auto x : currentPost->comments)
+			{
+				file << (int)x.vote << endl;
+				file << x.message << endl;
+				file << x.user.username << endl;
+			}
+			file.close();
+
+		}
+
+	}
+
 	//void removeBoard(vector<Board> boards, User* currentUser);
 
 };

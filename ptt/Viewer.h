@@ -72,16 +72,24 @@ public:
 		for (auto x : post->comments)
 		{
 			if (x.vote == UPVOTE)
-				cout << "±À ";
+				cout << "ï¿½ï¿½ ";
 			else if(x.vote == DOWNVOTE)
 			{
-				cout << "¼N ";
+				cout << "ï¿½N ";
 			}
 			cout << left << setw(40) << x.message << " "  << setw(10) << x.user.username << endl;
 		}
-		if (currentUser->authority == ADMIN || post->user.username == currentUser->username)//is owner or isadmin
+		if (post->user.username == currentUser->username)//is owner or isadmin
 		{
 			cout << "(E).edit this post\n";
+		}
+		if(currentUser->authority == ADMIN || post->user.username == currentUser->username)
+		{
+			cout << "(d).delete this post\n";
+		}
+		if (currentUser->authority == ADMIN)
+		{
+			cout << "(r).delete specific comment\n";
 		}
 		cout << "(l).leave comments\n";
 		cout << "(e).previous page\n";
