@@ -15,7 +15,7 @@
 - [X] allow admin to create and delete bulletin boards
 - [X] users can tuei (praise) or hsu (dislike) posts
 - [X] create new posts, edit or delete existing posts
-- [ ] 10% admin can delete all posts and comments, and leave a reason
+- [X] admin can delete all posts and comments, and leave a reason
 #### interactions & relationships between users
 - [X] create new accounts (with unique usernames)
 - [ ] 3% an account can only praise or dislike a post once
